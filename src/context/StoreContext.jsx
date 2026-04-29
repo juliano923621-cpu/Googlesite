@@ -49,11 +49,18 @@ export function StoreProvider({ children }) {
 
       if (error) throw error;
 
+      const nomeProducts = INITIAL_PRODUCTS.filter(p => p.category === 'nome');
+      const hasNome = data.some(p => p.category === 'nome');
+
       if (data && data.length > 0) {
-        const existingIds = new Set(data.map(p => p.id));
-        const newProducts = INITIAL_PRODUCTS.filter(p => !existingIds.has(p.id));
-        const allProducts = [...data, ...newProducts];
-        setProducts(allProducts);
+        if (!hasNome && nomeProducts.length > 0) {
+          for (const product of nomeProducts) {
+            await supabase.from('produtos').insert([product]);
+          }
+          setProducts([...data, ...nomeProducts]);
+        } else {
+          setProducts(data);
+        }
       } else {
         setProducts(INITIAL_PRODUCTS);
         for (const product of INITIAL_PRODUCTS) {
