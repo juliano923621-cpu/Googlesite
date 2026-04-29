@@ -10,31 +10,47 @@ export function StoreProvider({ children }) {
   const [category, setCategory] = useState('all');
   const [isAdmin, setIsAdmin] = useState(false);
   const [loginError, setLoginError] = useState('');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const savedProducts = localStorage.getItem('loja3d_products');
-    const savedSettings = localStorage.getItem('loja3d_settings');
-    
-    if (savedProducts) {
-      setProducts(JSON.parse(savedProducts));
-    } else {
-      setProducts(INITIAL_PRODUCTS);
-      localStorage.setItem('loja3d_products', JSON.stringify(INITIAL_PRODUCTS));
-    }
-    
-    if (savedSettings) {
-      setSettings(JSON.parse(savedSettings));
-    } else {
-      setSettings(DEFAULT_SETTINGS);
-      localStorage.setItem('loja3d_settings', JSON.stringify(DEFAULT_SETTINGS));
-    }
+    loadProducts();
   }, []);
 
+  const loadProducts = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('produtos')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+
+      if (data && data.length > 0) {
+        setProducts(data);
+      } else {
+        setProducts(INITIAL_PRODUCTS);
+        for (const product of INITIAL_PRODUCTS) {
+          await supabase.from('produtos').insert([product]);
+        }
+      }
+    } catch (error) {
+      console.error('Erro ao carregar produtos:', error);
+      const savedProducts = localStorage.getItem('loja3d_products');
+      if (savedProducts) {
+        setProducts(JSON.parse(savedProducts));
+      } else {
+        setProducts(INITIAL_PRODUCTS);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    if (products.length > 0) {
+    if (!loading && products.length > 0) {
       localStorage.setItem('loja3d_products', JSON.stringify(products));
     }
-  }, [products]);
+  }, [products, loading]);
 
   useEffect(() => {
     localStorage.setItem('loja3d_settings', JSON.stringify(settings));
@@ -85,18 +101,61 @@ export function StoreProvider({ children }) {
     }
   };
 
-  const addProduct = (product) => {
-    const newProduct = { ...product, id: Date.now().toString() };
-    setProducts([...products, newProduct]);
-    return newProduct;
+  const addProduct = async (product) => {
+    const newProduct = { 
+      ...product, 
+      id: Date.now().toString(),
+      created_at: new Date().toISOString()
+    };
+
+    try {
+      const { error } = await supabase
+        .from('produtos')
+        .insert([newProduct]);
+
+      if (error) throw error;
+
+      setProducts([newProduct, ...products]);
+      return newProduct;
+    } catch (error) {
+      console.error('Erro ao adicionar no banco:', error);
+      setProducts([newProduct, ...products]);
+      return newProduct;
+    }
   };
 
-  const updateProduct = (id, updatedProduct) => {
-    setProducts(products.map(p => p.id === id ? { ...updatedProduct, id } : p));
+  const updateProduct = async (id, updatedProduct) => {
+    const productToUpdate = { ...updatedProduct, id };
+
+    try {
+      const { error } = await supabase
+        .from('produtos')
+        .update(productToUpdate)
+        .eq('id', id);
+
+      if (error) throw error;
+
+      setProducts(products.map(p => p.id === id ? { ...p, ...updatedProduct } : p));
+    } catch (error) {
+      console.error('Erro ao atualizar no banco:', error);
+      setProducts(products.map(p => p.id === id ? { ...p, ...updatedProduct } : p));
+    }
   };
 
-  const deleteProduct = (id) => {
-    setProducts(products.filter(p => p.id !== id));
+  const deleteProduct = async (id) => {
+    try {
+      const { error } = await supabase
+        .from('produtos')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+
+      setProducts(products.filter(p => p.id !== id));
+    } catch (error) {
+      console.error('Erro ao deletar no banco:', error);
+      setProducts(products.filter(p => p.id !== id));
+    }
   };
 
   const filteredProducts = category === 'all' 
@@ -119,6 +178,7 @@ export function StoreProvider({ children }) {
     updateProduct,
     deleteProduct,
     uploadImage,
+    loading,
   };
 
   return (
