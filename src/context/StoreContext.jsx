@@ -50,7 +50,13 @@ export function StoreProvider({ children }) {
       if (error) throw error;
 
       if (data && data.length > 0) {
-        setProducts(data);
+        const hasNomeCategory = data.some(p => p.category === 'nome');
+        if (hasNomeCategory) {
+          setProducts(data);
+        } else {
+          const allProducts = [...INITIAL_PRODUCTS, ...data];
+          setProducts(allProducts);
+        }
       } else {
         setProducts(INITIAL_PRODUCTS);
         for (const product of INITIAL_PRODUCTS) {
