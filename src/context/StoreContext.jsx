@@ -12,8 +12,36 @@ export function StoreProvider({ children }) {
   const [loginError, setLoginError] = useState('');
   const [loading, setLoading] = useState(true);
 
+  const loadSettings = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('configuracoes')
+        .select('*')
+        .limit(1);
+
+      if (error) throw error;
+
+      if (data && data.length > 0) {
+        setSettings({ ...DEFAULT_SETTINGS, ...data[0] });
+      } else {
+        const { error: insertError } = await supabase
+          .from('configuracoes')
+          .insert([DEFAULT_SETTINGS]);
+        
+        if (insertError) throw insertError;
+      }
+    } catch (error) {
+      console.error('Erro ao carregar configurações:', error);
+      const savedSettings = localStorage.getItem('loja3d_settings');
+      if (savedSettings) {
+        setSettings({ ...DEFAULT_SETTINGS, ...JSON.parse(savedSettings) });
+      }
+    }
+  };
+
   useEffect(() => {
     loadProducts();
+    loadSettings();
   }, []);
 
   const loadProducts = async () => {
@@ -52,9 +80,31 @@ export function StoreProvider({ children }) {
     }
   }, [products, loading]);
 
+  const saveSettingsToDb = async (newSettings) => {
+    try {
+      const { id: firstId } = await supabase
+        .from('configuracoes')
+        .select('id')
+        .limit(1)
+        .single();
+
+      if (firstId) {
+        await supabase
+          .from('configuracoes')
+          .update(newSettings)
+          .eq('id', firstId.id);
+      }
+    } catch (error) {
+      console.error('Erro ao salvar configurações:', error);
+    }
+  };
+
   useEffect(() => {
-    localStorage.setItem('loja3d_settings', JSON.stringify(settings));
-  }, [settings]);
+    if (!loading && settings.storeName) {
+      saveSettingsToDb(settings);
+      localStorage.setItem('loja3d_settings', JSON.stringify(settings));
+    }
+  }, [settings, loading]);
 
   const login = (username, password) => {
     if (username === 'juliano' && password === '92369236') {
