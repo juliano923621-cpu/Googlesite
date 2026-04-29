@@ -83,8 +83,8 @@ export default function AdminPanel() {
       setEditingProduct(null);
       alert('Produto salvo com sucesso!');
     } catch (error) {
-      alert('Erro ao salvar produto. Tente novamente.');
-      console.error(error);
+      console.error('Erro completo:', error);
+      alert(`Erro ao salvar produto: ${error.message}`);
     } finally {
       setIsUploading(false);
     }

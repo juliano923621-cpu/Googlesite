@@ -54,14 +54,25 @@ export function StoreProvider({ children }) {
   const uploadImage = async (file) => {
     try {
       const timestamp = Date.now();
-      const fileName = `${timestamp}_${file.name}`;
+      const cleanName = file.name
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-zA-Z0-9.]/g, '_');
+      const fileName = `${timestamp}_${cleanName}`;
       const filePath = `produtos/${fileName}`;
 
       const { data, error } = await supabase.storage
         .from('produtos')
-        .upload(filePath, file);
+        .upload(filePath, file, {
+          cacheControl: '3600',
+          upsert: false,
+          contentType: file.type
+        });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Erro upload:', error);
+        throw error;
+      }
 
       const { data: urlData } = supabase.storage
         .from('produtos')
