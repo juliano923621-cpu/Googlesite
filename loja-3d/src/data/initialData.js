@@ -1,0 +1,85 @@
+export const CATEGORIES = [
+  { id: 'all', name: 'Todos' },
+  { id: 'luminaria', name: 'Luminárias' },
+  { id: 'brinquedo', name: 'Brinquedos' },
+  { id: 'ferramenta', name: 'Ferramentas' },
+  { id: 'chaveiro', name: 'Chaveiros' },
+  { id: 'drone', name: 'Drones' },
+  { id: 'peca', name: 'Peças' },
+  { id: 'ima', name: 'Imãs de geladeira' },
+  { id: 'presente', name: 'Presentes' },
+  { id: 'nome', name: 'Nomes personalizados' },
+];
+
+export const INITIAL_PRODUCTS = [
+  {
+    id: '1',
+    name: 'Luminária Lua',
+    price: 89.90,
+    category: 'luminaria',
+    image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iI2ZmZmZmZiLz48Y2lyY2xlIGN4PSIyMDAiIGN5PSIyMDAiIHI9IjEwMCIgZmlsbD0iI2ZmY2MwMCIvPjxjaXJjbGUgY3g9IjIwMCIgY3k9IjIwMCIgcj0iNTAiIGZpbGw9IiNmZmQxNTAlLz48Y2lyY2xlIGN4PSIxNTAiIGN5PSIyMDAiIHI9IjE1IiBmaWxsPSIjZmZkNTAwIi8+PGNpcmNsZSBjeD0iMjUwIiBjeT0iMjAwIiBxPSIxNSIgZmlsbD0iI2ZmZDUwMCIvPjwvc3ZnPg==',
+    description: 'Luminária decorativa em formato de lua cheia',
+  },
+  {
+    id: '2',
+    name: 'Luminária Star Wars',
+    price: 129.90,
+    category: 'luminaria',
+    image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iIzMzMyIvPjxjaXJjbGUgY3g9IjIwMCIgY3k9IjIwMCIgcj0iODAiIGZpbGw9IiM0NDQiIGZpbGwtb3BhY2l0eT0iMC44Ii8+PGNpcmNsZSBjeD0iMjAwIiBjeT0iMjAwIiByPSI0MCIgZmlsbD0iI2RkZDQwMCIvPjwvc3ZnPg==',
+    description: 'Luminária estilo Star Wars R2D2',
+  },
+  {
+    id: '3',
+    name: 'Cubo Mágico 3D',
+    price: 45.90,
+    category: 'brinquedo',
+    image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iIzMzMyIvPjxyZWN0IHg9IjEwMCIgeT0iMTAwIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzg4OCIvPjxyZWN0IHg9IjE1MCIgeT0iMTAwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzMzOSIvPjxyZWN0IHg9IjEwMCIgeT0iMTUwIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzMzOSIvPjxyZWN0IHg9IjEwMCIgeT0iMTUwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzMzOSIvPjwvc3ZnPg==',
+    description: 'Cubo mágico decorativo 3D',
+  },
+  {
+    id: '4',
+    name: 'Porta Ferramentas',
+    price: 79.90,
+    category: 'ferramenta',
+    image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iIzMzMyIvPjxyZWN0IHg9IjE1MCIgeT0iMTAwIiB3aWR0aD0iNTAiIGhlaWdodD0iMjAwIiBmaWxsPSIjZmZkNTAwIi8+PHJlY3QgeD0iMjAwJyB5PSIxNTAiIHdpZHRoPSI1MCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiM4ODgiLz48L3N2Zz4=',
+    description: 'Organizador de ferramentas parede',
+  },
+  {
+    id: '5',
+    name: 'Chaveiro Batman',
+    price: 25.90,
+    category: 'chaveiro',
+    image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iIzMzMyIvPjxjaXJjbGUgY3g9IjIwMCIgY3k9IjIwMCIgcj0iNjAiIGZpbGw9IiM0NDQiLz48Y2lyY2xlIGN4PSIyMDAiIGN5PSIyMDAiIHI9IjMwIiBmaWxsPSIjMzMxIi8+PHBvbGxpZ29uIGN4PSIyMDAiIGN5PSIxNjAiIHBvaW50cz0iMTgwLDE1MCAyMDAsMTUwIDIwMCwxNTAiIGZpbGw9IiMzMzEiLz48L3N2Zz4=',
+    description: 'Chaveiro estilo Batman',
+  },
+  {
+    id: '6',
+    name: 'Suporte Drone',
+    price: 59.90,
+    category: 'drone',
+    image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iIzMzMyIvPjxyZWN0IHg9IjE1MCIgeT0iMTUwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzg4OCIvPjxyZWN0IHg9IjE1MCIgeT0iMTUwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzMzOSIvPjxyZWN0IHg9IjE1MCIgeT0iMTUwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzQ0NCIvPjwvc3ZnPg==',
+    description: 'Suporte de armazenamento para drone',
+  },
+  {
+    id: '7',
+    name: 'Peça Ender',
+    price: 35.90,
+    category: 'peca',
+    image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iIzMzMyIvPjxlbGxpcHNlIGN4PSIyMDAiIGN5PSIyMDAiIHJ4PSIxMDAiIHJ5PSI1MCIgZmlsbD0iIzg4OCIvPjxlbGxpcHNlIGN4PSIyMDAiIGN5PSIyMDAiIHJ4PSI3MCIgcnk9IjMwIiBmaWxsPSIjNDQ0Ii8+PC9zdmc+',
+    description: 'Peça de reposição Ender 3',
+  },
+  {
+    id: '8',
+    name: 'Nome Personalizado',
+    price: 49.90,
+    category: 'nome',
+    image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iIzMzMyIvPjx0ZXh0IHg9IjIwMCIgeT0iMjIwIiBmb250LXNpemU9IjQwIiBmaWxsPSIjZmZkNTAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmeT0iLjFlbSI+QU5ZPC90ZXh0Pjwvc3ZnPg==',
+    description: 'Nome personalizado em 3D',
+  },
+];
+
+export const DEFAULT_SETTINGS = {
+  whatsapp: '',
+  instagram: '',
+  storeName: '3D Prestes',
+};
