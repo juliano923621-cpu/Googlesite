@@ -27,7 +27,9 @@ export default function Header() {
     <header className="header">
       <div className="header-container">
         <div className="logo">
-          <h1>{settings.storeName || 'Loja 3D'}</h1>
+          <a href="#home">
+            <img src="/logo.png" alt="3D Prestes" />
+          </a>
         </div>
         
         <button className="menu-toggle" onClick={() => setShowMenu(!showMenu)}>
