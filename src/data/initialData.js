@@ -8,6 +8,7 @@ export const CATEGORIES = [
   { id: 'peca', name: 'Peças' },
   { id: 'ima', name: 'Imãs de geladeira' },
   { id: 'presente', name: 'Presentes' },
+  { id: 'nome', name: 'Nomes personalizados' },
 ];
 
 export const INITIAL_PRODUCTS = [
@@ -66,6 +67,14 @@ export const INITIAL_PRODUCTS = [
     category: 'peca',
     image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iIzMzMyIvPjxlbGxpcHNlIGN4PSIyMDAiIGN5PSIyMDAiIHJ4PSIxMDAiIHJ5PSI1MCIgZmlsbD0iIzg4OCIvPjxlbGxpcHNlIGN4PSIyMDAiIGN5PSIyMDAiIHJ4PSI3MCIgcnk9IjMwIiBmaWxsPSIjNDQ0Ii8+PC9zdmc+',
     description: 'Peça de reposição Ender 3',
+  },
+  {
+    id: '8',
+    name: 'Nome Personalizado',
+    price: 49.90,
+    category: 'nome',
+    image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iIzMzMyIvPjx0ZXh0IHg9IjIwMCIgeT0iMjIwIiBmb250LXNpemU9IjQwIiBmaWxsPSIjZmZkNTAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmeT0iLjFlbSI+QU5ZPC90ZXh0Pjwvc3ZnPg==',
+    description: 'Nome personalizado em 3D',
   },
 ];
 
