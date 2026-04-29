@@ -23,12 +23,6 @@ export function StoreProvider({ children }) {
 
       if (data && data.length > 0) {
         setSettings({ ...DEFAULT_SETTINGS, ...data[0] });
-      } else {
-        const { error: insertError } = await supabase
-          .from('configuracoes')
-          .insert([DEFAULT_SETTINGS]);
-        
-        if (insertError) throw insertError;
       }
     } catch (error) {
       console.error('Erro ao carregar configurações:', error);
@@ -82,17 +76,20 @@ export function StoreProvider({ children }) {
 
   const saveSettingsToDb = async (newSettings) => {
     try {
-      const { id: firstId } = await supabase
+      const { data: existing } = await supabase
         .from('configuracoes')
         .select('id')
-        .limit(1)
-        .single();
+        .limit(1);
 
-      if (firstId) {
+      if (existing && existing.length > 0) {
         await supabase
           .from('configuracoes')
           .update(newSettings)
-          .eq('id', firstId.id);
+          .eq('id', existing[0].id);
+      } else {
+        await supabase
+          .from('configuracoes')
+          .insert([newSettings]);
       }
     } catch (error) {
       console.error('Erro ao salvar configurações:', error);
@@ -100,11 +97,11 @@ export function StoreProvider({ children }) {
   };
 
   useEffect(() => {
-    if (!loading && settings.storeName) {
+    if (!loading) {
       saveSettingsToDb(settings);
       localStorage.setItem('loja3d_settings', JSON.stringify(settings));
     }
-  }, [settings, loading]);
+  }, [settings]);
 
   const login = (username, password) => {
     if (username === 'juliano' && password === '92369236') {
