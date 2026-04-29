@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { INITIAL_PRODUCTS, DEFAULT_SETTINGS, CATEGORIES } from '../data/initialData';
+import { supabase } from '../supabase';
 
 const StoreContext = createContext();
 
@@ -50,6 +51,29 @@ export function StoreProvider({ children }) {
     }
   };
 
+  const uploadImage = async (file) => {
+    try {
+      const timestamp = Date.now();
+      const fileName = `${timestamp}_${file.name}`;
+      const filePath = `produtos/${fileName}`;
+
+      const { data, error } = await supabase.storage
+        .from('produtos')
+        .upload(filePath, file);
+
+      if (error) throw error;
+
+      const { data: urlData } = supabase.storage
+        .from('produtos')
+        .getPublicUrl(filePath);
+
+      return urlData.publicUrl;
+    } catch (error) {
+      console.error('Erro ao fazer upload:', error);
+      throw error;
+    }
+  };
+
   const addProduct = (product) => {
     const newProduct = { ...product, id: Date.now().toString() };
     setProducts([...products, newProduct]);
@@ -83,6 +107,7 @@ export function StoreProvider({ children }) {
     addProduct,
     updateProduct,
     deleteProduct,
+    uploadImage,
   };
 
   return (

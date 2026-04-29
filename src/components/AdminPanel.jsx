@@ -12,7 +12,8 @@ export default function AdminPanel() {
     isAdmin,
     addProduct, 
     updateProduct, 
-    deleteProduct 
+    deleteProduct,
+    uploadImage
   } = useStore();
 
   const [activeTab, setActiveTab] = useState('products');
@@ -26,6 +27,8 @@ export default function AdminPanel() {
   });
   const [settingsForm, setSettingsForm] = useState(settings);
   const [imagePreview, setImagePreview] = useState('');
+  const [isUploading, setIsUploading] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
 
   useEffect(() => {
     if (!isAdmin) {
@@ -36,63 +39,55 @@ export default function AdminPanel() {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      setSelectedFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
-        const img = new Image();
-        img.onload = () => {
-          const canvas = document.createElement('canvas');
-          const maxSize = 400;
-          let { width, height } = img;
-          
-          if (width > height) {
-            if (width > maxSize) {
-              height *= maxSize / width;
-              width = maxSize;
-            }
-          } else {
-            if (height > maxSize) {
-              width *= maxSize / height;
-              height = maxSize;
-            }
-          }
-          
-          canvas.width = width;
-          canvas.height = height;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, width, height);
-          
-          const base64 = canvas.toDataURL('image/jpeg', 0.7);
-          setFormData({ ...formData, image: base64 });
-          setImagePreview(base64);
-        };
-        img.src = reader.result;
+        setImagePreview(reader.result);
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const productData = {
-      ...formData,
-      price: parseFloat(formData.price) || 0,
-    };
+    setIsUploading(true);
 
-    if (editingProduct) {
-      updateProduct(editingProduct.id, productData);
-    } else {
-      addProduct(productData);
+    try {
+      let imageUrl = formData.image;
+
+      if (selectedFile) {
+        imageUrl = await uploadImage(selectedFile);
+      }
+
+      const productData = {
+        ...formData,
+        image: imageUrl,
+        price: parseFloat(formData.price) || 0,
+      };
+
+      if (editingProduct) {
+        updateProduct(editingProduct.id, productData);
+      } else {
+        addProduct(productData);
+      }
+
+      setFormData({
+        name: '',
+        price: '',
+        category: 'luminaria',
+        description: '',
+        image: '',
+      });
+      setImagePreview('');
+      setSelectedFile(null);
+      setEditingProduct(null);
+      alert('Produto salvo com sucesso!');
+    } catch (error) {
+      alert('Erro ao salvar produto. Tente novamente.');
+      console.error(error);
+    } finally {
+      setIsUploading(false);
     }
-
-    setFormData({
-      name: '',
-      price: '',
-      category: 'luminaria',
-      description: '',
-      image: '',
-    });
-    setImagePreview('');
-    setEditingProduct(null);
   };
 
   const handleEdit = (product) => {
@@ -105,6 +100,7 @@ export default function AdminPanel() {
       image: product.image,
     });
     setImagePreview(product.image);
+    setSelectedFile(null);
   };
 
   const handleDelete = (id) => {
@@ -207,8 +203,8 @@ export default function AdminPanel() {
             </div>
 
             <div className="form-actions">
-              <button type="submit" className="btn-save">
-                {editingProduct ? 'Atualizar' : 'Adicionar'}
+              <button type="submit" className="btn-save" disabled={isUploading}>
+                {isUploading ? 'Salvando...' : (editingProduct ? 'Atualizar' : 'Adicionar')}
               </button>
               {editingProduct && (
                 <button 
@@ -224,6 +220,7 @@ export default function AdminPanel() {
                       image: '',
                     });
                     setImagePreview('');
+                    setSelectedFile(null);
                   }}
                 >
                   Cancelar
