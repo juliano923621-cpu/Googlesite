@@ -1,0 +1,68 @@
+.home {
+  min-height: 100vh;
+}
+
+.hero {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  padding: 4rem 1rem;
+  text-align: center;
+}
+
+.hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hero h2 {
+  color: #fff;
+  font-size: 2.5rem;
+  margin: 0 0 1rem;
+}
+
+.hero p {
+  color: #aaa;
+  font-size: 1.25rem;
+  margin: 0 0 2rem;
+}
+
+.btn-hero {
+  display: inline-block;
+  background: #e94560;
+  color: #fff;
+  padding: 1rem 2rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.3s;
+}
+
+.btn-hero:hover {
+  background: #ff6b6b;
+}
+
+.products-section {
+  padding: 3rem 0;
+}
+
+.section-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.products-section h2 {
+  color: #1a1a2e;
+  text-align: center;
+  margin: 0 0 2rem;
+  font-size: 2rem;
+}
+
+@media (max-width: 768px) {
+  .hero h2 {
+    font-size: 1.75rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+}
