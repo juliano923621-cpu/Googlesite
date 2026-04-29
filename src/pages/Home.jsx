@@ -10,7 +10,7 @@ export default function Home() {
     <main className="home" id="home">
       <section className="hero">
         <div className="hero-content">
-          <h2>Bem-vindo à {settings.storeName || 'Loja 3D'}</h2>
+          <h2>Bem-vindo à 3D Prestes</h2>
           <p>Impressões 3D personalizadas sob demanda</p>
           <a href="#produtos" className="btn-hero">Ver Produtos</a>
         </div>
