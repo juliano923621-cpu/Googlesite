@@ -50,13 +50,10 @@ export function StoreProvider({ children }) {
       if (error) throw error;
 
       if (data && data.length > 0) {
-        const hasNomeCategory = data.some(p => p.category === 'nome');
-        if (hasNomeCategory) {
-          setProducts(data);
-        } else {
-          const allProducts = [...INITIAL_PRODUCTS, ...data];
-          setProducts(allProducts);
-        }
+        const existingIds = new Set(data.map(p => p.id));
+        const newProducts = INITIAL_PRODUCTS.filter(p => !existingIds.has(p.id));
+        const allProducts = [...data, ...newProducts];
+        setProducts(allProducts);
       } else {
         setProducts(INITIAL_PRODUCTS);
         for (const product of INITIAL_PRODUCTS) {
