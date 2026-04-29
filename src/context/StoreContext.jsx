@@ -16,10 +16,12 @@ export function StoreProvider({ children }) {
     try {
       const { data, error } = await supabase
         .from('configuracoes')
-        .select('*')
-        .limit(1);
+        .select('*');
 
-      if (error) throw error;
+      if (error) {
+        console.error('Erro loadSettings:', error);
+        throw error;
+      }
 
       if (data && data.length > 0) {
         setSettings({ ...DEFAULT_SETTINGS, ...data[0] });
@@ -78,18 +80,21 @@ export function StoreProvider({ children }) {
     try {
       const { data: existing } = await supabase
         .from('configuracoes')
-        .select('id')
-        .limit(1);
+        .select('id');
 
       if (existing && existing.length > 0) {
-        await supabase
+        const { error } = await supabase
           .from('configuracoes')
           .update(newSettings)
           .eq('id', existing[0].id);
+        
+        if (error) console.error('Erro update:', error);
       } else {
-        await supabase
+        const { error } = await supabase
           .from('configuracoes')
           .insert([newSettings]);
+        
+        if (error) console.error('Erro insert:', error);
       }
     } catch (error) {
       console.error('Erro ao salvar configurações:', error);
